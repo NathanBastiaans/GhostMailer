@@ -21,10 +21,22 @@ class GhostMailer {
 	public $attachments	= array();
 
 	/**
+	 * The end of line variable for the header.
+	 * @type string
+	 */
+	public $eol	= "\n";
+
+	/**
 	 * The sender name and e-mail address.
 	 * @type string
 	 */
 	public $sender	= '';
+
+	/**
+	 * The return e-mail if the mail fails to deliver.
+	 * @type string
+	 */
+	public $returnAddress	= '';
 	
 	/**
 	 * The subject of the e-mail.
@@ -39,9 +51,25 @@ class GhostMailer {
 	public $message	= '';
 	
     /**
-     * Returns the recipients.
-     * @return array
-     */
+	 * Sets default values for sending mail.
+	 */	
+	public function __construct() {
+		
+		$this->setHeaders ( 'MIME-Version',	'1.0' ); 
+		$this->setHeaders ( 'Content-Type',	'text/html; charset=iso-8859-1' ); 
+
+		$this->setHeaders ( 'X-Mailer',		'PHP/' . phpversion() ); 
+		$this->setHeaders ( 'X-Priority',	'Normal' ); 
+
+		$this->setSender ( 'Example <info@example.com>' );
+		$this->setReturnAddress ( 'Example <info@example.com>' );
+		
+	}
+	
+    /**
+	 * Returns the recipients.
+	 * @return array
+	 */	
 	public function getRecipients () {
 	
 		return $this->recipients;
@@ -49,8 +77,8 @@ class GhostMailer {
 	}
 	
 	/**
-     * Resets the recipients to none.
-     */
+	 * Resets the recipients to none.
+	 */
 	public function clearRecipients () {
 	
 		$this->recipient = array();
@@ -58,19 +86,19 @@ class GhostMailer {
 	}
 
 	/**
-     * Adds a recipient.
-     * @param string
-     */
+	 * Adds a recipient.
+	 * @param string
+	 */
 	public function addRecipient ( $recipient ) {
 
-		$this->recipients[] = $recipient;
+		array_push($this->recipients, $recipient);
 	
 	}
 
 	/**
-     * Returns the senders e-mail address.
-     * @return string
-     */
+	 * Returns the senders e-mail address.
+	 * @return string
+	 */
 	public function getSender () {
 	
 		return $this->sender;
@@ -78,19 +106,42 @@ class GhostMailer {
 	}
 	
 	/**
-     * Sets the sender e-mail.
-     * @param string
-     */
+	 * Sets the sender e-mail.
+	 * @param string
+	 */
 	public function setSender ( $sender ) {
 		
 		$this->sender = $sender; 
+		$this->setHeaders('From', $sender);
+		$this->setHeaders('Reply-To', $sender);
+		
+	}
+
+	/**
+	 * Returns the return e-mail address.
+	 * @return string
+	 */
+	public function getReturnAddress () {
+	
+		return $this->returnAddress;
+	
+	}
+	
+	/**
+	 * Sets the sender e-mail.
+	 * @param string
+	 */
+	public function setReturnAddress ( $address ) {
+		
+		$this->returnAddress = $address; 
+		$this->setHeaders('Return-Path', $address);
 		
 	}
 	
 	/**
-     * Returns the subject.
-     * @return string
-     */
+	 * Returns the subject.
+	 * @return string
+	 */
 	public function getSubject () {
 	
 		return $this->subject;
@@ -98,9 +149,9 @@ class GhostMailer {
 	}
 	
 	/**
-     * Sets the subject of the e-mail.
-     * @param string
-     */	
+	 * Sets the subject of the e-mail.
+	 * @param string
+	 */	
 	public function setSubject ( $subject ) {
 
 		$this->subject = $subject;
@@ -108,9 +159,9 @@ class GhostMailer {
 	}
 	
 	/**
-     * Returns the message.
-     * @return string
-     */
+	 * Returns the message.
+	 * @return string
+	 */
 	public function getMessage () {
 	
 		return $this->message;
@@ -118,9 +169,9 @@ class GhostMailer {
 	}
 	
 	/**
-     * Sets the message/body of the e-mail.
-     * @param string
-     */
+	 * Sets the message/body of the e-mail.
+	 * @param string
+	 */
 	public function setMessage ( $message ) {
 
 		$this->message = $message;
@@ -128,9 +179,9 @@ class GhostMailer {
 	}
 	
 	/**
-     * Returns the headers.
-     * @return array
-     */
+	 * Returns the headers.
+	 * @return array
+	 */
 	public function getHeaders () {
 	
 		return $this->header;
@@ -138,10 +189,10 @@ class GhostMailer {
 	}
 	
 	/**
-     * Sets header value
-     * @param string $key
-     * @param string $value
-     */
+	 * Sets header value
+	 * @param string $key
+	 * @param string $value
+	 */
 	public function setHeaders ( $key, $value ) {
 	
 		$this->header[ $key ] = $value;
@@ -149,9 +200,9 @@ class GhostMailer {
 	}
 	
 	/**
-     * Returns the attached files.
-     * @return array
-     */
+	 * Returns the attached files.
+	 * @return array
+	 */
 	public function getAttachements () {
 	
 		return $this->attachments;
@@ -159,28 +210,72 @@ class GhostMailer {
 	}
 	
 	/**
-     * Adds an attachment to the e-mail.
-     * @param string
-     */
-	public function setAttachment ( $attachment ) {
+	 * Adds an attachment to the e-mail.
+	 * @param string
+	 */
+	public function addAttachment ( $attachment ) {
 	
-		$this->attachments[] = $attachment;
+		array_push($this->attachments, $attachment);
 	
 	}
 	
 	/**
-     * Sends the e-mail to all the recipients.
-     * @return bool
-     */
+	 * Sends the e-mail to all the recipients.
+	 * @return bool
+	 */
 	public function send () {
 
-		foreach($this->recipients as $recepient) {
+		$message	= $this->message;
+		$head		= ""; 
+		foreach($this->header as $key => $value) { $head.= $key . ': ' . $value . $this->eol; }
+
+		
+		if( count( $this->attachments ) > 0 ) {
+			
+			$separator = md5(time());
+			$this->setHeaders('Content-Type', 'multipart/mixed; boundary="' . $separator . '"');
+
+			$head		= ""; 
+			foreach($this->header as $key => $value) { $head.= $key . ': ' . $value . $this->eol; }
+			$head.= "Content-Transfer-Encoding: 7bit" . $this->eol;
+			$head.= "This is a MIME encoded message." . $this->eol . $this->eol;		
+
+			// message
+			$head .= "--" . $separator . $this->eol;
+			$head .= "Content-Type: text/plain; charset=\"iso-8859-1\"" . $this->eol;
+			$head .= "Content-Transfer-Encoding: 8bit" . $this->eol . $this->eol;
+			$head .= $this->message . $this->eol . $this->eol;
+			$head .= "--" . $separator . $this->eol;
+			
+			foreach($this->attachments as $attached) {
+			
+				$tmp		= explode("/", $attached);
+				$filename	= end($tmp);
+
+				$file_size = filesize($attached);
+				$handle = fopen($attached, "r");
+				$content = fread($handle, $file_size);
+				fclose($handle);
+				$content = chunk_split(base64_encode($content));
+
+				// attachment
+				$head .= "Content-Type: application/octet-stream; name=\"" . $filename . "\"" . $this->eol;
+				$head .= "Content-Transfer-Encoding: base64" . $this->eol;
+				$head .= "Content-Disposition: attachment" . $this->eol . $this->eol;
+				$head .= $content . $this->eol . $this->eol;
+				$head .= "--" . $separator . "--";
+
+			}
+			
+		}
+
+		foreach($this->recipients as $recipient) {
 		
 			if( ! mail(
-					$recepient,
+					$recipient,
 					$this->subject ,
-					$this->message ,
-					$this->headers
+					$message ,
+					$head
 				)
 			) {
 				return false;
