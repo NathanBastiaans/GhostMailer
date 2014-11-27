@@ -27,6 +27,12 @@ class GhostMailer {
 	public $eol	= "\n";
 
 	/**
+	 * Trying to send a HTML message?.
+	 * @type string
+	 */
+	public $isHTML	= false;
+
+	/**
 	 * The sender name and e-mail address.
 	 * @type string
 	 */
@@ -67,6 +73,26 @@ class GhostMailer {
 	}
 	
     /**
+	 * Returns the isHTML value.
+	 * @return bool
+	 */	
+	public function getHTML () {
+	
+		return $this->isHTML;
+	
+	}
+	
+	/**
+	 * Sets the isHTML value
+	 * @param bool
+	 */
+	public function setHTML ( $bool ) {
+
+		$this->isHTML = $bool;
+	
+	}
+	
+	/**
 	 * Returns the recipients.
 	 * @return array
 	 */	
@@ -229,7 +255,6 @@ class GhostMailer {
 		$head		= ""; 
 		foreach($this->header as $key => $value) { $head.= $key . ': ' . $value . $this->eol; }
 
-		
 		if( count( $this->attachments ) > 0 ) {
 			
 			$separator = md5(time());
@@ -242,7 +267,7 @@ class GhostMailer {
 
 			// message
 			$head .= "--" . $separator . $this->eol;
-			$head .= "Content-Type: text/plain; charset=\"iso-8859-1\"" . $this->eol;
+			$head .= "Content-Type: text/".($this->isHTML ? 'html' : 'plain' )."; charset=\"iso-8859-1\"" . $this->eol;
 			$head .= "Content-Transfer-Encoding: 8bit" . $this->eol . $this->eol;
 			$head .= $message . $this->eol . $this->eol;
 			$head .= "--" . $separator . $this->eol;
