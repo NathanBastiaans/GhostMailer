@@ -244,8 +244,10 @@ class GhostMailer {
 			$head .= "--" . $separator . $this->eol;
 			$head .= "Content-Type: text/plain; charset=\"iso-8859-1\"" . $this->eol;
 			$head .= "Content-Transfer-Encoding: 8bit" . $this->eol . $this->eol;
-			$head .= $this->message . $this->eol . $this->eol;
+			$head .= $message . $this->eol . $this->eol;
 			$head .= "--" . $separator . $this->eol;
+			
+			$message = "";
 			
 			foreach($this->attachments as $attached) {
 			
@@ -263,7 +265,7 @@ class GhostMailer {
 				$head .= "Content-Transfer-Encoding: base64" . $this->eol;
 				$head .= "Content-Disposition: attachment" . $this->eol . $this->eol;
 				$head .= $content . $this->eol . $this->eol;
-				$head .= "--" . $separator . "--";
+				$head .= "--" . $separator . $this->eol;
 
 			}
 			
