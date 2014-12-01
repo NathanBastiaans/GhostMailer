@@ -240,8 +240,15 @@ class GhostMailer {
 	 * @param string
 	 */
 	public function addAttachment ( $attachment ) {
-	
-		array_push($this->attachments, $attachment);
+		
+		if( is_file ( $attachment ) ) {
+		
+			array_push($this->attachments, $attachment);
+			return true;
+			
+		} 
+		
+		return false;
 	
 	}
 	
