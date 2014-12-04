@@ -1,4 +1,12 @@
 <?php
+/**
+ * GhostMailer is a simple class to help send mails more easily
+ *
+ * @author Nathan Bastiaans
+ * @website www.nathanbastiaans.nl
+ * @copyright 2014 Nathan Bastiaans
+ * @licence http://opensource.org/licenses/MIT The MIT License (MIT)
+ */
 
 class GhostMailer {
 
