@@ -71,72 +71,52 @@ class GhostMailer {
 		$this->setReturnAddress ( 'Example <info@example.com>' );
 		
 	}
+
+    /*
+     * Getters & Setters
+     */
 	
     /**
 	 * Returns the isHTML value.
 	 * @return bool
 	 */	
-	public function getHTML () {
-	
-		return $this->isHTML;
-	
-	}
+	public function getHTML () { return $this->isHTML; }
 	
 	/**
 	 * Sets the isHTML value
 	 * @param bool
 	 */
-	public function setHTML ( $bool ) {
-
-		$this->isHTML = $bool;
-	
-	}
+	public function setHTML ( $bool ) { $this->isHTML = $bool; }
 	
 	/**
 	 * Returns the recipients.
 	 * @return array
 	 */	
-	public function getRecipients () {
-	
-		return $this->recipients;
-	
-	}
+	public function getRecipients () { return $this->recipients; }
 	
 	/**
 	 * Resets the recipients to none.
 	 */
-	public function clearRecipients () {
-	
-		$this->recipient = array();
-	
-	}
+	public function clearRecipients () { $this->recipient = array(); }
 
 	/**
 	 * Adds a recipient.
 	 * @param string
 	 */
-	public function addRecipient ( $recipient ) {
-
-		array_push( $this->recipients, $recipient );
-	
-	}
+	public function addRecipient ( $recipient ) { array_push( $this->recipients, $recipient ); }
 
 	/**
 	 * Returns the senders e-mail address.
 	 * @return string
 	 */
-	public function getSender () {
-	
-		return $this->sender;
-	
-	}
+	public function getSender () { return $this->sender; }
 	
 	/**
 	 * Sets the sender e-mail.
 	 * @param string
 	 */
 	public function setSender ( $sender ) {
-		
+
 		$this->sender = $sender; 
 		$this->setHeaders( 'From', $sender );
 		$this->setHeaders( 'Reply-To', $sender );
@@ -147,11 +127,7 @@ class GhostMailer {
 	 * Returns the return e-mail address.
 	 * @return string
 	 */
-	public function getReturnAddress () {
-	
-		return $this->returnAddress;
-	
-	}
+	public function getReturnAddress () { return $this->returnAddress; }
 	
 	/**
 	 * Sets the sender e-mail.
@@ -168,72 +144,44 @@ class GhostMailer {
 	 * Returns the subject.
 	 * @return string
 	 */
-	public function getSubject () {
-	
-		return $this->subject;
-	
-	}
+	public function getSubject () { return $this->subject; }
 	
 	/**
 	 * Sets the subject of the e-mail.
 	 * @param string
 	 */	
-	public function setSubject ( $subject ) {
-
-		$this->subject = $subject;
-	
-	}
+	public function setSubject ( $subject ) { $this->subject = $subject; }
 	
 	/**
 	 * Returns the message.
 	 * @return string
 	 */
-	public function getMessage () {
-	
-		return $this->message;
-	
-	}
+	public function getMessage () { return $this->message; }
 	
 	/**
 	 * Sets the message/body of the e-mail.
 	 * @param string
 	 */
-	public function setMessage ( $message ) {
-
-		$this->message = $message;
-	
-	}
+	public function setMessage ( $message ) { $this->message = $message; }
 	
 	/**
 	 * Returns the headers.
 	 * @return array
 	 */
-	public function getHeaders () {
-	
-		return $this->header;
-	
-	}
+	public function getHeaders () { return $this->header; }
 	
 	/**
 	 * Sets header value
 	 * @param string $key
 	 * @param string $value
 	 */
-	public function setHeaders ( $key, $value ) {
-	
-		$this->header[ $key ] = $value;
-	
-	}
+	public function setHeaders ( $key, $value ) { $this->header[ $key ] = $value; }
 	
 	/**
 	 * Returns the attached files.
 	 * @return array
 	 */
-	public function getAttachements () {
-	
-		return $this->attachments;
-	
-	}
+	public function getAttachements () { return $this->attachments; }
 	
 	/**
 	 * Adds an attachment to the e-mail.
