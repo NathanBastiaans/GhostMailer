@@ -74,10 +74,6 @@ class GhostMailer {
 
 		$this->setHeaders ( 'X-Mailer',		'PHP/' . phpversion() ); 
 		$this->setHeaders ( 'X-Priority',	'Normal' ); 
-
-        //@todo Should this be "Example" ??
-		$this->setSender ( 'Example <info@example.com>' );
-		$this->setReturnAddress ( 'Example <info@example.com>' );
 		
 	}
 
