@@ -67,6 +67,7 @@ class GhostMailer {
 		$this->setHeaders ( 'X-Mailer',		'PHP/' . phpversion() ); 
 		$this->setHeaders ( 'X-Priority',	'Normal' ); 
 
+        //@todo Should this be "Example" ??
 		$this->setSender ( 'Example <info@example.com>' );
 		$this->setReturnAddress ( 'Example <info@example.com>' );
 		
@@ -189,7 +190,8 @@ class GhostMailer {
 	 * @return bool
 	 */
 	public function addAttachment ( $attachment ) {
-		
+
+        // File sanity checking
 		if( is_file ( $attachment ) ) {
 		
 			array_push( $this->attachments, $attachment );
@@ -212,7 +214,8 @@ class GhostMailer {
 	 * @return bool
 	 */
 	public function quickSend ( $to, $from, $subject, $message, $headers = array(), $attachments = array() ) {
-	
+
+        // If the mail has multiple recipients
 		if( is_array( $to ) ) {
 		
 			foreach( $to as $recipient ) {
@@ -234,13 +237,15 @@ class GhostMailer {
 		$this->setSubject( $subject );
 		
 		$this->setMessage( $message );
-		
+
+        // If message contains HTML
 		if( $message != strip_tags( $message ) ) {
 		
 			$this->setHTML( true );
 		
 		}
-		
+
+        // If header given
 		if( count ( $headers ) > 0 ) {
 
 			foreach( $headers as $key => $value ) {
@@ -251,6 +256,7 @@ class GhostMailer {
 			
 		}
 
+        // If attachments given
 		if( count ( $attachments ) > 0 ) {
 
 			foreach( $attachments as $file ) {
@@ -275,6 +281,7 @@ class GhostMailer {
 		$head		= ""; 
 		foreach ( $this->header as $key => $value) { $head.= $key . ': ' . $value . self::EOL; }
 
+        // If attachments given
 		if( count( $this->attachments ) > 0 ) {
 			
 			$separator = md5( time() );
@@ -285,7 +292,7 @@ class GhostMailer {
 			$head.= "Content-Transfer-Encoding: 7bit" . self::EOL;
 			$head.= "This is a MIME encoded message." . self::EOL . self::EOL;
 
-			// message
+			// Preparing the message with proper formatting, charsets, content-types and encoding.
 			$head .= "--" . $separator . self::EOL;
 			$head .= "Content-Type: text/" . ( $this->isHTML ? 'html' : 'plain' ) . "; charset=\"iso-8859-1\"" . self::EOL;
 			$head .= "Content-Transfer-Encoding: 8bit" . self::EOL . self::EOL;
@@ -293,7 +300,8 @@ class GhostMailer {
 			$head .= "--" . $separator . self::EOL;
 			
 			$message = "";
-			
+
+            // Attach all given attachments to the mail
 			foreach( $this->attachments as $attached ) {
 			
 				$tmp		= explode("/", $attached);
