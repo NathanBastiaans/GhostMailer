@@ -308,9 +308,23 @@ class GhostMailer {
 				$filename	= end( $tmp );
 
 				$file_size = filesize( $attached );
-				$handle = fopen( $attached, "r" );
-				$content = fread( $handle, $file_size );
-				fclose( $handle );
+
+
+                try // Try to open the file
+                {
+
+				    $handle = fopen( $attached, "r" );
+				    $content = fread( $handle, $file_size );
+				    fclose( $handle );
+
+                }
+                catch (Exception $e)
+                {
+
+                    die ("[GhostMailer] FATAL ERROR IN ATTACHMENTS: Could not open file; Stacktrace: " . $e->getMessage ());
+
+                }
+
 				$content = chunk_split( base64_encode( $content ) );
 
 				// attachment
