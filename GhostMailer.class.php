@@ -10,59 +10,59 @@
 
 class GhostMailer {
 
+    /**
+     * The end of line constant for the header.
+     * @type string
+     */
+    const EOL = "\n";
+
 	/**
 	 * The array that holds all the recipients e-mail addresses.
 	 * @type array
 	 */
-	public $recipients	= array();
+	private $recipients	= array();
 	
 	/**
 	 * The array that holds all the header information.
 	 * @type array
 	 */
-	public $header		= array();
+	private $header		= array();
 	
 	/**
 	 * The array that holds all the attached files.
 	 * @type array
 	 */
-	public $attachments	= array();
-
-	/**
-	 * The end of line variable for the header.
-	 * @type string
-	 */
-	public $eol	= "\n";
+	private $attachments	= array();
 
 	/**
 	 * Trying to send a HTML message?.
 	 * @type string
 	 */
-	public $isHTML	= false;
+	private $isHTML	= false;
 
 	/**
 	 * The sender name and e-mail address.
 	 * @type string
 	 */
-	public $sender	= '';
+	private $sender	= '';
 
 	/**
 	 * The return e-mail if the mail fails to deliver.
 	 * @type string
 	 */
-	public $returnAddress	= '';
+	private $returnAddress	= '';
 	
 	/**
 	 * The subject of the e-mail.
 	 * @type string
 	 */
-	public $subject	= '';
+	private $subject	= '';
 	
 	/**
 	 * The message that will be sent to all the recipients.
 	 * @type array
 	 */
-	public $message	= '';
+	private $message	= '';
 	
     /**
 	 * Sets default values for sending mail.
@@ -75,76 +75,57 @@ class GhostMailer {
 		$this->setHeaders ( 'X-Mailer',		'PHP/' . phpversion() ); 
 		$this->setHeaders ( 'X-Priority',	'Normal' ); 
 
+        //@todo Should this be "Example" ??
 		$this->setSender ( 'Example <info@example.com>' );
 		$this->setReturnAddress ( 'Example <info@example.com>' );
 		
 	}
+
+    /*
+     * Getters & Setters
+     */
 	
     /**
 	 * Returns the isHTML value.
 	 * @return bool
 	 */	
-	public function getHTML () {
-	
-		return $this->isHTML;
-	
-	}
+	public function getHTML () { return $this->isHTML; }
 	
 	/**
 	 * Sets the isHTML value
 	 * @param bool
 	 */
-	public function setHTML ( $bool ) {
-
-		$this->isHTML = $bool;
-	
-	}
+	public function setHTML ( $bool ) { $this->isHTML = $bool; }
 	
 	/**
 	 * Returns the recipients.
 	 * @return array
 	 */	
-	public function getRecipients () {
-	
-		return $this->recipients;
-	
-	}
+	public function getRecipients () { return $this->recipients; }
 	
 	/**
 	 * Resets the recipients to none.
 	 */
-	public function clearRecipients () {
-	
-		$this->recipient = array();
-	
-	}
+	public function clearRecipients () { $this->recipient = array(); }
 
 	/**
 	 * Adds a recipient.
 	 * @param string
 	 */
-	public function addRecipient ( $recipient ) {
-
-		array_push( $this->recipients, $recipient );
-	
-	}
+	public function addRecipient ( $recipient ) { array_push( $this->recipients, $recipient ); }
 
 	/**
 	 * Returns the senders e-mail address.
 	 * @return string
 	 */
-	public function getSender () {
-	
-		return $this->sender;
-	
-	}
+	public function getSender () { return $this->sender; }
 	
 	/**
 	 * Sets the sender e-mail.
 	 * @param string
 	 */
 	public function setSender ( $sender ) {
-		
+
 		$this->sender = $sender; 
 		$this->setHeaders( 'From', $sender );
 		$this->setHeaders( 'Reply-To', $sender );
@@ -155,11 +136,7 @@ class GhostMailer {
 	 * Returns the return e-mail address.
 	 * @return string
 	 */
-	public function getReturnAddress () {
-	
-		return $this->returnAddress;
-	
-	}
+	public function getReturnAddress () { return $this->returnAddress; }
 	
 	/**
 	 * Sets the sender e-mail.
@@ -176,72 +153,44 @@ class GhostMailer {
 	 * Returns the subject.
 	 * @return string
 	 */
-	public function getSubject () {
-	
-		return $this->subject;
-	
-	}
+	public function getSubject () { return $this->subject; }
 	
 	/**
 	 * Sets the subject of the e-mail.
 	 * @param string
 	 */	
-	public function setSubject ( $subject ) {
-
-		$this->subject = $subject;
-	
-	}
+	public function setSubject ( $subject ) { $this->subject = $subject; }
 	
 	/**
 	 * Returns the message.
 	 * @return string
 	 */
-	public function getMessage () {
-	
-		return $this->message;
-	
-	}
+	public function getMessage () { return $this->message; }
 	
 	/**
 	 * Sets the message/body of the e-mail.
 	 * @param string
 	 */
-	public function setMessage ( $message ) {
-
-		$this->message = $message;
-	
-	}
+	public function setMessage ( $message ) { $this->message = $message; }
 	
 	/**
 	 * Returns the headers.
 	 * @return array
 	 */
-	public function getHeaders () {
-	
-		return $this->header;
-	
-	}
+	public function getHeaders () { return $this->header; }
 	
 	/**
 	 * Sets header value
 	 * @param string $key
 	 * @param string $value
 	 */
-	public function setHeaders ( $key, $value ) {
-	
-		$this->header[ $key ] = $value;
-	
-	}
+	public function setHeaders ( $key, $value ) { $this->header[ $key ] = $value; }
 	
 	/**
 	 * Returns the attached files.
 	 * @return array
 	 */
-	public function getAttachements () {
-	
-		return $this->attachments;
-	
-	}
+	public function getAttachements () { return $this->attachments; }
 	
 	/**
 	 * Adds an attachment to the e-mail.
@@ -249,7 +198,8 @@ class GhostMailer {
 	 * @return bool
 	 */
 	public function addAttachment ( $attachment ) {
-		
+
+        // File sanity checking
 		if( is_file ( $attachment ) ) {
 		
 			array_push( $this->attachments, $attachment );
@@ -272,7 +222,8 @@ class GhostMailer {
 	 * @return bool
 	 */
 	public function quickSend ( $to, $from, $subject, $message, $headers = array(), $attachments = array() ) {
-	
+
+        // If the mail has multiple recipients
 		if( is_array( $to ) ) {
 		
 			foreach( $to as $recipient ) {
@@ -294,13 +245,15 @@ class GhostMailer {
 		$this->setSubject( $subject );
 		
 		$this->setMessage( $message );
-		
+
+        // If message contains HTML
 		if( $message != strip_tags( $message ) ) {
 		
 			$this->setHTML( true );
 		
 		}
-		
+
+        // If header given
 		if( count ( $headers ) > 0 ) {
 
 			foreach( $headers as $key => $value ) {
@@ -311,6 +264,7 @@ class GhostMailer {
 			
 		}
 
+        // If attachments given
 		if( count ( $attachments ) > 0 ) {
 
 			foreach( $attachments as $file ) {
@@ -333,44 +287,60 @@ class GhostMailer {
 
 		$message	= $this->message;
 		$head		= ""; 
-		foreach ( $this->header as $key => $value) { $head.= $key . ': ' . $value . $this->eol; }
+		foreach ( $this->header as $key => $value) { $head.= $key . ': ' . $value . self::EOL; }
 
+        // If attachments given
 		if( count( $this->attachments ) > 0 ) {
 			
 			$separator = md5( time() );
 			$this->setHeaders( 'Content-Type', 'multipart/mixed; boundary="' . $separator . '"' );
 
 			$head		= ""; 
-			foreach( $this->header as $key => $value ) { $head.= $key . ': ' . $value . $this->eol; }
-			$head.= "Content-Transfer-Encoding: 7bit" . $this->eol;
-			$head.= "This is a MIME encoded message." . $this->eol . $this->eol;		
+			foreach( $this->header as $key => $value ) { $head.= $key . ': ' . $value . self::EOL; }
+			$head.= "Content-Transfer-Encoding: 7bit" . self::EOL;
+			$head.= "This is a MIME encoded message." . self::EOL . self::EOL;
 
-			// message
-			$head .= "--" . $separator . $this->eol;
-			$head .= "Content-Type: text/" . ( $this->isHTML ? 'html' : 'plain' ) . "; charset=\"iso-8859-1\"" . $this->eol;
-			$head .= "Content-Transfer-Encoding: 8bit" . $this->eol . $this->eol;
-			$head .= $message . $this->eol . $this->eol;
-			$head .= "--" . $separator . $this->eol;
+			// Preparing the message with proper formatting, charsets, content-types and encoding.
+			$head .= "--" . $separator . self::EOL;
+			$head .= "Content-Type: text/" . ( $this->isHTML ? 'html' : 'plain' ) . "; charset=\"iso-8859-1\"" . self::EOL;
+			$head .= "Content-Transfer-Encoding: 8bit" . self::EOL . self::EOL;
+			$head .= $message . self::EOL . self::EOL;
+			$head .= "--" . $separator . self::EOL;
 			
 			$message = "";
-			
+
+            // Attach all given attachments to the mail
 			foreach( $this->attachments as $attached ) {
 			
 				$tmp		= explode("/", $attached);
 				$filename	= end( $tmp );
 
 				$file_size = filesize( $attached );
-				$handle = fopen( $attached, "r" );
-				$content = fread( $handle, $file_size );
-				fclose( $handle );
+
+
+                try // Try to open the file
+                {
+
+				    $handle = fopen( $attached, "r" );
+				    $content = fread( $handle, $file_size );
+				    fclose( $handle );
+
+                }
+                catch (Exception $e)
+                {
+
+                    die ("[GhostMailer] FATAL ERROR IN ATTACHMENTS: Could not open file; Stacktrace: " . $e->getMessage ());
+
+                }
+
 				$content = chunk_split( base64_encode( $content ) );
 
 				// attachment
-				$head .= "Content-Type: application/octet-stream; name=\"" . $filename . "\"" . $this->eol;
-				$head .= "Content-Transfer-Encoding: base64" . $this->eol;
-				$head .= "Content-Disposition: attachment" . $this->eol . $this->eol;
-				$head .= $content . $this->eol . $this->eol;
-				$head .= "--" . $separator . $this->eol;
+				$head .= "Content-Type: application/octet-stream; name=\"" . $filename . "\"" . self::EOL;
+				$head .= "Content-Transfer-Encoding: base64" . self::EOL;
+				$head .= "Content-Disposition: attachment" . self::EOL . self::EOL;
+				$head .= $content . self::EOL . self::EOL;
+				$head .= "--" . $separator . self::EOL;
 
 			}
 			
