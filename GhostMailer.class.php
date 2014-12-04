@@ -2,59 +2,59 @@
 
 class GhostMailer {
 
+    /**
+     * The end of line constant for the header.
+     * @type string
+     */
+    const EOL = "\n";
+
 	/**
 	 * The array that holds all the recipients e-mail addresses.
 	 * @type array
 	 */
-	public $recipients	= array();
+	private $recipients	= array();
 	
 	/**
 	 * The array that holds all the header information.
 	 * @type array
 	 */
-	public $header		= array();
+	private $header		= array();
 	
 	/**
 	 * The array that holds all the attached files.
 	 * @type array
 	 */
-	public $attachments	= array();
-
-	/**
-	 * The end of line variable for the header.
-	 * @type string
-	 */
-	public $eol	= "\n";
+	private $attachments	= array();
 
 	/**
 	 * Trying to send a HTML message?.
 	 * @type string
 	 */
-	public $isHTML	= false;
+	private $isHTML	= false;
 
 	/**
 	 * The sender name and e-mail address.
 	 * @type string
 	 */
-	public $sender	= '';
+	private $sender	= '';
 
 	/**
 	 * The return e-mail if the mail fails to deliver.
 	 * @type string
 	 */
-	public $returnAddress	= '';
+	private $returnAddress	= '';
 	
 	/**
 	 * The subject of the e-mail.
 	 * @type string
 	 */
-	public $subject	= '';
+	private $subject	= '';
 	
 	/**
 	 * The message that will be sent to all the recipients.
 	 * @type array
 	 */
-	public $message	= '';
+	private $message	= '';
 	
     /**
 	 * Sets default values for sending mail.
@@ -325,7 +325,7 @@ class GhostMailer {
 
 		$message	= $this->message;
 		$head		= ""; 
-		foreach ( $this->header as $key => $value) { $head.= $key . ': ' . $value . $this->eol; }
+		foreach ( $this->header as $key => $value) { $head.= $key . ': ' . $value . self::EOL; }
 
 		if( count( $this->attachments ) > 0 ) {
 			
@@ -333,16 +333,16 @@ class GhostMailer {
 			$this->setHeaders( 'Content-Type', 'multipart/mixed; boundary="' . $separator . '"' );
 
 			$head		= ""; 
-			foreach( $this->header as $key => $value ) { $head.= $key . ': ' . $value . $this->eol; }
-			$head.= "Content-Transfer-Encoding: 7bit" . $this->eol;
-			$head.= "This is a MIME encoded message." . $this->eol . $this->eol;		
+			foreach( $this->header as $key => $value ) { $head.= $key . ': ' . $value . self::EOL; }
+			$head.= "Content-Transfer-Encoding: 7bit" . self::EOL;
+			$head.= "This is a MIME encoded message." . self::EOL . self::EOL;
 
 			// message
-			$head .= "--" . $separator . $this->eol;
-			$head .= "Content-Type: text/" . ( $this->isHTML ? 'html' : 'plain' ) . "; charset=\"iso-8859-1\"" . $this->eol;
-			$head .= "Content-Transfer-Encoding: 8bit" . $this->eol . $this->eol;
-			$head .= $message . $this->eol . $this->eol;
-			$head .= "--" . $separator . $this->eol;
+			$head .= "--" . $separator . self::EOL;
+			$head .= "Content-Type: text/" . ( $this->isHTML ? 'html' : 'plain' ) . "; charset=\"iso-8859-1\"" . self::EOL;
+			$head .= "Content-Transfer-Encoding: 8bit" . self::EOL . self::EOL;
+			$head .= $message . self::EOL . self::EOL;
+			$head .= "--" . $separator . self::EOL;
 			
 			$message = "";
 			
@@ -358,11 +358,11 @@ class GhostMailer {
 				$content = chunk_split( base64_encode( $content ) );
 
 				// attachment
-				$head .= "Content-Type: application/octet-stream; name=\"" . $filename . "\"" . $this->eol;
-				$head .= "Content-Transfer-Encoding: base64" . $this->eol;
-				$head .= "Content-Disposition: attachment" . $this->eol . $this->eol;
-				$head .= $content . $this->eol . $this->eol;
-				$head .= "--" . $separator . $this->eol;
+				$head .= "Content-Type: application/octet-stream; name=\"" . $filename . "\"" . self::EOL;
+				$head .= "Content-Transfer-Encoding: base64" . self::EOL;
+				$head .= "Content-Disposition: attachment" . self::EOL . self::EOL;
+				$head .= $content . self::EOL . self::EOL;
+				$head .= "--" . $separator . self::EOL;
 
 			}
 			
