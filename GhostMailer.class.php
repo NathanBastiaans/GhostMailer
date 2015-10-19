@@ -86,36 +86,65 @@ class GhostMailer {
      * Returns the isHTML value.
      * @return bool
      */
-    public static function getHTML () { return self::$isHTML; }
+    public static function getHTML ()
+	{
+
+		return self::$isHTML;
+
+	}
     
     /**
      * Sets the isHTML value
      * @param bool
      */
-    public static function setHTML ( $bool ) { self::$isHTML = $bool; }
+    public static function setHTML ( $bool )
+	{
+
+		self::$isHTML = $bool;
+
+	}
     
     /**
      * Returns the recipients.
      * @return array
      */
-    public static function getRecipients () { return self::$recipients; }
+    public static function getRecipients () {
+
+		return self::$recipients;
+
+	}
     
     /**
      * Resets the recipients to none.
      */
-    public static function clearRecipients () { self::$recipient = array (); }
+    public static function clearRecipients ()
+	{
+		
+		self::$recipient = array ();
+
+	}
 
     /**
      * Adds a recipient.
      * @param string
      */
-    public static function addRecipient ( $recipient ) { array_push ( self::$recipients, $recipient ); }
+    public static function addRecipient ( $recipient )
+	{
+
+		array_push ( self::$recipients, $recipient );
+
+	}
 
     /**
      * Returns the senders e-mail address.
      * @return string
      */
-    public static function getSender () { return self::$sender; }
+    public static function getSender ()
+	{
+		
+		return self::$sender;
+
+	}
     
     /**
      * Sets the sender e-mail.
@@ -134,7 +163,12 @@ class GhostMailer {
      * Returns the return e-mail address.
      * @return string
      */
-    public static function getReturnAddress () { return self::$returnAddress; }
+    public static function getReturnAddress ()
+	{
+
+		return self::$returnAddress;
+
+	}
     
     /**
      * Sets the sender e-mail.
@@ -152,44 +186,79 @@ class GhostMailer {
      * Returns the subject.
      * @return string
      */
-    public static function getSubject () { return self::$subject; }
+    public static function getSubject ()
+	{
+		
+		return self::$subject;
+
+	}
     
     /**
      * Sets the subject of the e-mail.
      * @param string
      */
-    public static function setSubject ( $subject ) { self::$subject = $subject; }
+    public static function setSubject ( $subject )
+	{
+		
+		self::$subject = $subject;
+
+	}
     
     /**
      * Returns the message.
      * @return string
      */
-    public static function getMessage () { return self::$message; }
+    public static function getMessage ()
+	{
+		
+		return self::$message;
+
+	}
     
     /**
      * Sets the message/body of the e-mail.
      * @param string
      */
-    public static function setMessage ( $message ) { self::$message = $message; }
+    public static function setMessage ( $message )
+	{
+		
+		self::$message = $message;
+
+	}
     
     /**
      * Returns the headers.
      * @return array
      */
-    public static function getHeaders () { return self::$header; }
+    public static function getHeaders ()
+	{
+
+		return self::$header;
+
+	}
     
     /**
      * Sets header value
      * @param string $key
      * @param string $value
      */
-    public static function setHeaders ( $key, $value ) { self::$header[ $key ] = $value; }
+    public static function setHeaders ( $key, $value )
+	{ 
+		
+		self::$header[ $key ] = $value;
+
+	}
     
     /**
      * Returns the attached files.
      * @return array
      */
-    public static function getAttachements () { return self::$attachments; }
+    public static function getAttachements ()
+	{
+
+		return self::$attachments;
+
+	}
     
     /**
      * Adds an attachment to the e-mail.
