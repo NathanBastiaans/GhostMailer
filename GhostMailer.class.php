@@ -429,8 +429,9 @@ class GhostMailer {
             }
             
         }
-        
-$head = preg_replace("/[\r\n]+/", "\n", $head );
+
+		/* This single line fixes (or is supposed to fix) the multiple newline bug. */ 
+		$head = preg_replace ( "/[\r\n]+/", "\n", $head );
 
         foreach ( self::$recipients as $recipient ) 
         {
